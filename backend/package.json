@@ -1,0 +1,41 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "ts-node prisma/seed.ts",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@prisma/client": "^6.8.2",
+    "@types/bcrypt": "^5.0.2",
+    "@types/node": "^22.15.19",
+    "prisma": "^6.8.2",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.0.1",
+    "@fastify/jwt": "^9.1.0",
+    "@sendgrid/mail": "^8.1.5",
+    "@types/node-cache": "^4.1.3",
+    "axios": "^1.9.0",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^16.5.0",
+    "fastify": "^5.3.3",
+    "firebase-admin": "^13.4.0",
+    "node-cache": "^5.1.2",
+    "yn": "^3.1.1"
+  }
+}
