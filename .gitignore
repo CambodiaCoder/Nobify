@@ -24,9 +24,18 @@ node_modules/
 # OS specific
 .DS_Store
 
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Generated files
+**/generated/
+**/dist/
+
 # Task files
 tasks.json
-tasks/ 
+tasks/
 .cursor/
 .kilocode/
 .roo/
