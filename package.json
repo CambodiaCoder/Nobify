@@ -1,0 +1,24 @@
+{
+  "name": "nobify",
+  "version": "1.0.0",
+  "description": "Nobify is a personal crypto tool designed to help users track and manage their airdrop results, portfolio investments, and important notifications.",
+  "main": "index.js",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nobhokleng/Nobify.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nobhokleng/Nobify/issues"
+  },
+  "homepage": "https://github.com/Nobhokleng/Nobify#readme"
+}
