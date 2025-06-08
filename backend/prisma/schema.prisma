@@ -1,0 +1,167 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// User model for authentication and user data
+// Define available user roles
+enum UserRole {
+  USER
+  ADMIN
+  MODERATOR
+}
+
+model User {
+  id                  String           @id @default(uuid())
+  email               String           @unique
+  passwordHash        String
+  name                String?
+  profileImage        String?
+  role                UserRole         @default(USER)
+  fcmToken            String?          // Firebase Cloud Messaging token for push notifications
+  emailNotifications  Boolean          @default(true)  // Enable/disable email notifications
+  pushNotifications   Boolean          @default(true)  // Enable/disable push notifications
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  airdrops            UserAirdrop[]
+  holdings            PortfolioHolding[]
+  alerts              Alert[]
+  refreshTokens       RefreshToken[]
+  loginAttempts       LoginAttempt[]
+}
+
+// RefreshToken model for storing JWT refresh tokens
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  @@index([userId])
+}
+
+// LoginAttempt model for tracking authentication attempts and preventing brute force
+model LoginAttempt {
+  id        String   @id @default(uuid())
+  email     String
+  success   Boolean  @default(false)
+  ipAddress String
+  createdAt DateTime @default(now())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([email, createdAt])
+  @@index([ipAddress, createdAt])
+}
+
+// Airdrop model for tracking crypto airdrops
+model Airdrop {
+  id            String           @id @default(uuid())
+  title         String
+  description   String?
+  criteria      String
+  deadline      DateTime
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  users         UserAirdrop[]
+}
+
+// Junction table for User and Airdrop with claim status
+model UserAirdrop {
+  userId        String
+  airdropId     String
+  status        String           // e.g., "eligible", "claimed", "missed"
+  claimedAt     DateTime?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  user          User             @relation(fields: [userId], references: [id])
+  airdrop       Airdrop          @relation(fields: [airdropId], references: [id])
+
+  @@id([userId, airdropId])
+}
+
+// Portfolio holdings for tracking crypto assets
+model PortfolioHolding {
+  id               String           @id @default(uuid())
+  userId           String
+  tokenSymbol      String           // e.g., "BTC", "ETH"
+  tokenName        String           // e.g., "Bitcoin", "Ethereum"
+  currentAmount    Float            // Current amount of tokens held
+  averageCostBasis Float?           // Average cost per token (calculated from transactions)
+  totalCostBasis   Float?           // Total amount invested (sum of all buy transactions)
+  currentPrice     Float?           // Current market price (fetched from API)
+  currentValue     Float?           // Current total value (currentAmount * currentPrice)
+  unrealizedPnL    Float?           // Unrealized profit/loss (currentValue - totalCostBasis)
+  realizedPnL      Float?           // Realized profit/loss from sell transactions
+  percentageChange Float?           // Percentage change from cost basis
+  lastPriceUpdate  DateTime?        // When price was last updated
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions     Transaction[]
+
+  @@unique([userId, tokenSymbol]) // Prevent duplicate holdings for same token
+  @@index([userId])
+}
+
+// Transaction history for portfolio holdings
+enum TransactionType {
+  BUY
+  SELL
+  TRANSFER_IN
+  TRANSFER_OUT
+  STAKE
+  UNSTAKE
+  REWARD
+  AIRDROP
+}
+
+model Transaction {
+  id              String           @id @default(uuid())
+  holdingId       String
+  type            TransactionType  // Transaction type enum
+  amount          Float            // Amount of tokens in the transaction
+  pricePerToken   Float?           // Price per token at time of transaction
+  totalValue      Float?           // Total value of transaction (amount * pricePerToken)
+  transactionFee  Float?           // Transaction fee in USD
+  feeTokenSymbol  String?          // Symbol of token used for fee (e.g., "ETH" for gas)
+  exchangeName    String?          // Name of exchange where transaction occurred
+  transactionHash String?          // Blockchain transaction hash
+  date            DateTime         // Date of the transaction
+  notes           String?          // Additional notes for the transaction
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  holding         PortfolioHolding @relation(fields: [holdingId], references: [id], onDelete: Cascade)
+
+  @@index([holdingId])
+  @@index([date])
+}
+
+// Alerts for price changes, airdrop deadlines, etc.
+model Alert {
+  id            String           @id @default(uuid())
+  userId        String
+  type          String           // e.g., "price", "airdrop", "news"
+  condition     String           // e.g., "above", "below", "deadline"
+  threshold     Float?
+  tokenSymbol   String?
+  airdropId     String?
+  active        Boolean          @default(true)
+  lastTriggered DateTime?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  user          User             @relation(fields: [userId], references: [id])
+}
