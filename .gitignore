@@ -9,12 +9,11 @@ dev-debug.log
 # Dependency directories
 node_modules/
 
-# Environment variables
+# Environment variables (keep these private)
 .env
 
 # Editor directories and files
 .idea
-.vscode
 *.suo
 *.ntvs*
 *.njsproj
@@ -30,16 +29,4 @@ node_modules/
 *.sqlite3
 
 # Generated files
-**/generated/
 **/dist/
-
-# Task files
-tasks.json
-tasks/
-.cursor/
-.kilocode/
-.roo/
-.taskmaster/
-.roomodes
-.windsurfrules
-.taskmasterconfig

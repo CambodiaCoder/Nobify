@@ -1,0 +1,316 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Initialize Project Repository and Tooling",
+      "description": "Set up monorepo including Next.js frontend and Fastify backend with TypeScript, Tailwind CSS, Prisma ORM, Recharts, and essential libraries.",
+      "details": "Create workspace with npm/yarn. Initialize Next.js app in /frontend and Fastify in /backend. Install dependencies: next, react, react-dom, tailwindcss, fastify, axios, prisma, @prisma/client, fastify-jwt, bcrypt, firebase-admin, @sendgrid/mail, recharts. Configure TypeScript, Tailwind, and folder structure.",
+      "testStrategy": "Run Next.js dev and Fastify server to verify startup. Implement CI scripts to lint and build both apps. Validate folder structure and dependency installation.",
+      "priority": "high",
+      "dependencies": [],
+      "status": "completed",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Initialize Monorepo Workspace and Basic Directory Structure",
+          "description": "Set up the root of the monorepo using npm or yarn workspaces and create the primary directories for frontend and backend applications.",
+          "dependencies": [],
+          "details": "1. Create a root project directory. 2. Initialize it as a package: `npm init -y` or `yarn init -y`. 3. Configure workspaces in the root `package.json`. For npm: add `\"workspaces\": [\"frontend\", \"backend\"]` (or `\"apps/*\"` if using an `apps` subdirectory). For yarn: add `\"workspaces\": {\"packages\": [\"frontend\", \"backend\"]}` (or `\"apps/*\"`). 4. Create directories: `mkdir frontend backend` (or `mkdir apps && mkdir apps/frontend apps/backend` if using `apps/*`).",
+          "status": "done",
+          "testStrategy": "Verify root `package.json` has workspace configuration. Check existence of `frontend` and `backend` directories (or `apps/frontend`, `apps/backend`)."
+        },
+        {
+          "id": 2,
+          "title": "Initialize Next.js Frontend with TypeScript and Tailwind CSS",
+          "description": "Set up the Next.js application within the `frontend` directory, including TypeScript and initial Tailwind CSS configuration.",
+          "dependencies": [
+            1
+          ],
+          "details": "1. Navigate to the `frontend` directory. 2. Initialize Next.js: `npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\"`. (Adjust flags as per latest `create-next-app` recommendations). 3. Ensure a `package.json` is created in `frontend` and it's recognized by the monorepo. Install core dependencies `next`, `react`, `react-dom` if not automatically handled by `create-next-app` in a monorepo context. 4. Verify basic Next.js app runs using its dev script (e.g., `npm run dev` or `yarn dev` from the `frontend` directory or workspace command from root).",
+          "status": "done",
+          "testStrategy": "Run the dev script in the `frontend` directory (e.g., `npm run dev`) and ensure the default Next.js page loads in a browser. Check for `tsconfig.json` and `tailwind.config.js` files in the `frontend` directory."
+        },
+        {
+          "id": 3,
+          "title": "Initialize Fastify Backend with TypeScript",
+          "description": "Set up the Fastify application within the `backend` directory, configured with TypeScript.",
+          "dependencies": [
+            1
+          ],
+          "details": "1. Navigate to the `backend` directory. 2. Initialize a `package.json`: `npm init -y` or `yarn init -y`. 3. Install Fastify and TypeScript dependencies: `npm install fastify typescript @types/node ts-node-dev` or `yarn add fastify typescript @types/node ts-node-dev`. 4. Create a `tsconfig.json` (e.g., `npx tsc --init`) and configure it appropriately (e.g., `\"rootDir\": \"src\"`, `\"outDir\": \"dist\"`, `\"esModuleInterop\": true`, `\"moduleResolution\": \"node\"`). 5. Create `src/index.ts` with a basic Fastify server instance and a test route (e.g., `server.get('/', async () => ({ hello: 'world' }))`). 6. Add scripts to `backend/package.json`: `\"dev\": \"ts-node-dev src/index.ts\"`, `\"build\": \"tsc\"`, `\"start\": \"node dist/index.js\"`.",
+          "status": "done",
+          "testStrategy": "Run the dev script in the `backend` directory (e.g., `npm run dev`) and access the test endpoint (e.g., `http://localhost:3001/`) to verify the server is running and responds correctly."
+        },
+        {
+          "id": 4,
+          "title": "Set Up and Configure Prisma ORM",
+          "description": "Initialize Prisma ORM in the backend, configure the database connection, and create an initial schema.",
+          "dependencies": [
+            3
+          ],
+          "details": "1. Navigate to the `backend` directory. 2. Install Prisma CLI as a dev dependency and Prisma Client: `npm install prisma --save-dev @prisma/client` or `yarn add prisma --dev @prisma/client`. 3. Initialize Prisma: `npx prisma init --datasource-provider postgresql` (replace `postgresql` with your chosen database provider like `mysql` or `sqlite`). This creates a `prisma` folder with `schema.prisma` and a `.env` file. 4. Configure the `DATABASE_URL` in the `.env` file with your database connection string. 5. Define at least one model in `prisma/schema.prisma` (e.g., a simple User model). 6. Create the first migration and apply it to the database: `npx prisma migrate dev --name init`. 7. Generate Prisma Client: `npx prisma generate`.",
+          "status": "done",
+          "testStrategy": "Verify `prisma/schema.prisma` exists and is configured. Successfully run `npx prisma migrate dev --name init`. Check that Prisma Client is generated (typically in `node_modules/.prisma/client` or as specified in schema)."
+        },
+        {
+          "id": 5,
+          "title": "Install Additional Libraries and Finalize Tailwind CSS",
+          "description": "Install all remaining project dependencies for both frontend and backend, and complete Tailwind CSS setup for the frontend.",
+          "dependencies": [
+            2,
+            3,
+            4
+          ],
+          "details": "1. **Frontend (`frontend` directory):** \n   - Install `axios`, `recharts`: `npm install axios recharts` or `yarn add axios recharts`. \n   - Verify/Finalize Tailwind CSS: Ensure `tailwind.config.js` `content` array correctly paths to your source files (e.g., `./src/**/*.{js,ts,jsx,tsx,mdx}`). \n   - Ensure Tailwind CSS directives (`@tailwind base; @tailwind components; @tailwind utilities;`) are present in the main global CSS file (e.g., `src/app/globals.css` for Next.js App Router). \n2. **Backend (`backend` directory):** \n   - Install `axios` (if needed for server-to-server), `fastify-jwt`, `bcrypt`, `firebase-admin`, `@sendgrid/mail`: `npm install axios fastify-jwt bcrypt firebase-admin @sendgrid/mail` or `yarn add axios fastify-jwt bcrypt firebase-admin @sendgrid/mail`. \n   - Install necessary type definitions for these libraries (e.g., `npm install -D @types/bcrypt` or `yarn add -D @types/bcrypt`).",
+          "status": "done",
+          "testStrategy": "Frontend: Create a simple component using a few Tailwind classes and a basic Recharts chart; verify it renders correctly. Backend: Create test routes or service functions that import and minimally use the newly installed libraries (e.g., attempt to use bcrypt for hashing, initialize firebase-admin if config available) to check for import errors or basic functionality."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Design and Implement Database Schema",
+      "description": "Define and migrate PostgreSQL schema using Prisma for Users, Airdrops, UserAirdrops, PortfolioHoldings, Transactions, and Alerts.",
+      "details": "Create schema.prisma with models: User (id,email,passwordHash), Airdrop (id,title,criteria,deadline), UserAirdrop (userId,airdropId,status), PortfolioHolding (id,userId,tokenSymbol,amount), Transaction (id,holdingId,type,amount,date), Alert (id,userId,type,condition,threshold,createdAt). Run prisma migrate to apply.",
+      "testStrategy": "Write integration tests with a test database. Use Prisma client to perform CRUD operations for each model and assert schema correctness.",
+      "priority": "high",
+      "dependencies": [
+        1
+      ],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 3,
+      "title": "Implement Authentication and Authorization",
+      "description": "Implement signup/login with JWT in Fastify and protect API routes; manage auth state in frontend.",
+      "details": "In backend, register fastify-jwt plugin, create /auth/signup and /auth/login endpoints, hash passwords with bcrypt, sign JWT tokens, and add auth preHandler to protected routes. In frontend, create React Context for auth, store token in HTTP-only cookie, and wrap protected pages with auth guard.",
+      "testStrategy": "Unit test auth endpoints for success and failure cases. Integration test protected endpoints reject unauthorized requests. Frontend tests simulate login flow and auth guard behavior.",
+      "priority": "high",
+      "dependencies": [
+        1,
+        2
+      ],
+      "status": "done",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Backend JWT Configuration",
+          "description": "Set up JWT authentication infrastructure on the backend",
+          "dependencies": [],
+          "details": "Configure JWT secret keys, token generation, validation middleware, and token refresh mechanisms. Implement token expiration settings and secure storage of JWT secrets in environment variables.\n<info added on 2025-05-21T17:03:14.804Z>\nInitial exploration reveals that JWT secret keys are pending definition in the .env file. The fastify-jwt library (v4.1.3) is installed but not yet registered in backend/src/index.ts. Immediate next steps involve defining JWT_SECRET and JWT_REFRESH_SECRET in the .env file, followed by registering the fastify-jwt plugin in backend/src/index.ts using these environment variables.\n</info added on 2025-05-21T17:03:14.804Z>\n<info added on 2025-05-21T17:04:24.712Z>\nCompleted initial Backend JWT Configuration:\n- Added JWT_SECRET and JWT_REFRESH_SECRET to the .env file (with placeholder values).\n- Imported and registered the fastify-jwt plugin in backend/src/index.ts.\n- Configured fastify-jwt to use the JWT_SECRET from environment variables.\n- Added a check to ensure JWT_SECRET is defined, exiting if not.\n\nToken generation, validation middleware, and refresh mechanisms are out of scope for this initial setup and will be addressed in subsequent subtasks (e.g., 3.2 for endpoints, 3.4 for auth middleware).\n</info added on 2025-05-21T17:04:24.712Z>",
+          "status": "done"
+        },
+        {
+          "id": 2,
+          "title": "User Authentication Endpoints",
+          "description": "Create backend API endpoints for user authentication",
+          "dependencies": [
+            1
+          ],
+          "details": "Implement registration, login, logout, and password reset endpoints. Set up secure session cookies for the Backend for Frontend (BFF) pattern. Configure CORS and security headers for all authentication routes.",
+          "status": "done"
+        },
+        {
+          "id": 3,
+          "title": "Password Security Implementation",
+          "description": "Implement secure password handling on the backend",
+          "dependencies": [
+            2
+          ],
+          "details": "Set up password hashing using bcrypt or Argon2, implement password validation rules, salt generation, and secure password reset flows. Create mechanisms to prevent brute force attacks and implement rate limiting.",
+          "status": "done"
+        },
+        {
+          "id": 4,
+          "title": "Authorization Middleware",
+          "description": "Create role-based authorization middleware for backend routes",
+          "dependencies": [
+            1,
+            2
+          ],
+          "details": "Implement role-based access control (RBAC) middleware that validates user permissions for protected routes. Create functions to authorize different user roles (e.g., admin, regular user) and handle unauthorized access attempts.",
+          "status": "done"
+        },
+        {
+          "id": 5,
+          "title": "Frontend Authentication Integration",
+          "description": "Implement authentication state management in the frontend application",
+          "dependencies": [
+            2
+          ],
+          "details": "Set up authentication context/store to manage user state. Implement login/logout UI components, session persistence, and automatic token refresh. Create interceptors for authenticated API requests and handle authentication errors.",
+          "status": "done"
+        },
+        {
+          "id": 6,
+          "title": "Frontend Route Protection",
+          "description": "Implement protected routes and authorization guards in the frontend",
+          "dependencies": [
+            5
+          ],
+          "details": "Create route guards to prevent unauthorized access to protected pages. Implement conditional rendering based on user roles and permissions. Add redirect logic for unauthenticated users and handle session timeouts gracefully.",
+          "status": "done"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Integrate Third-Party Crypto APIs",
+      "description": "Build backend services to fetch airdrop data from CoinGecko/CoinMarketCap and real-time price data from CoinGecko.",
+      "details": "Implement service modules using axios to call CoinGecko/CoinMarketCap APIs. Abstract API keys via environment variables. Add caching layer with node-cache (TTL 30s). Export functions getAirdrops() and getPrices(tokenSymbols).",
+      "testStrategy": "Mock axios responses in unit tests and assert data mapping. Test cache layer by calling functions twice and verifying only first call hits external API.",
+      "priority": "medium",
+      "dependencies": [
+        1,
+        2
+      ],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 5,
+      "title": "Develop Airdrop Tracking API Endpoints",
+      "description": "Create Fastify endpoints to list, filter, and manage user-specific airdrops including claim status.",
+      "details": "Implement GET /airdrops with query params (status, upcoming, completed), GET /airdrops/:id, POST /airdrops/:id/claim to toggle claim. Use getAirdrops() to refresh data and Prisma to read/write UserAirdrop. Schedule background job for deadline notifications.",
+      "testStrategy": "Unit test each endpoint handler with mocked services and Prisma client. Integration tests verify list filtering, claim toggling, and database updates.",
+      "priority": "high",
+      "dependencies": [
+        2,
+        3,
+        4
+      ],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 6,
+      "title": "Implement Portfolio Management API",
+      "description": "Build Fastify endpoints for CRUD of user portfolio holdings and calculate performance metrics.",
+      "details": "Add endpoints: GET /portfolio (aggregate holdings with current values), POST /portfolio/holdings, PUT /portfolio/holdings/:id, DELETE /portfolio/holdings/:id. Use getPrices() to calculate current value and percentage change. Persist transactions for history.",
+      "testStrategy": "Unit tests for logic and calculations with mocked price service. Integration tests to verify holdings CRUD, value aggregation, and transaction recording.",
+      "priority": "high",
+      "dependencies": [
+        2,
+        3,
+        4
+      ],
+      "status": "done",
+      "subtasks": [
+        {
+          "id": 1,
+          "title": "Design Portfolio Holdings Data Model",
+          "description": "Define the schema for user portfolio holdings and transaction history, ensuring compatibility with CRUD operations and performance calculations.",
+          "dependencies": [],
+          "details": "Specify fields such as asset type, quantity, acquisition price, timestamps, and user association. Include transaction history structure for tracking changes over time.",
+          "status": "done",
+          "testStrategy": "Validate the schema with sample data and ensure it supports all required operations."
+        },
+        {
+          "id": 2,
+          "title": "Implement CRUD Endpoints for Portfolio Holdings",
+          "description": "Develop Fastify endpoints for creating, reading, updating, and deleting user portfolio holdings.",
+          "dependencies": [
+            1
+          ],
+          "details": "Create POST /portfolio/holdings, GET /portfolio, PUT /portfolio/holdings/:id, and DELETE /portfolio/holdings/:id endpoints. Use Fastify's schema validation for request and response payloads.",
+          "status": "done",
+          "testStrategy": "Write integration tests for each endpoint, covering valid and invalid requests."
+        },
+        {
+          "id": 3,
+          "title": "Integrate Price Retrieval for Holdings Valuation",
+          "description": "Integrate the getPrices() function to fetch current asset prices and calculate the current value of each holding.",
+          "dependencies": [
+            2
+          ],
+          "details": "Ensure each holding's value is updated in real-time using external price data. Handle errors and edge cases in price retrieval.",
+          "status": "done",
+          "testStrategy": "Mock getPrices() in tests and verify correct value calculations for various holdings."
+        },
+        {
+          "id": 4,
+          "title": "Calculate Portfolio Performance Metrics",
+          "description": "Implement logic to compute performance metrics such as total portfolio value and percentage change based on transaction history and current prices.",
+          "dependencies": [
+            3
+          ],
+          "details": "Aggregate holdings, calculate total value, and determine percentage change since acquisition using persisted transaction data.",
+          "status": "done",
+          "testStrategy": "Test calculations with controlled data sets to ensure accuracy of metrics."
+        },
+        {
+          "id": 5,
+          "title": "Persist and Retrieve Transaction History",
+          "description": "Ensure all portfolio transactions are recorded and can be retrieved for historical analysis and performance calculations.",
+          "dependencies": [
+            1
+          ],
+          "details": "Implement storage and retrieval logic for transaction history, linking each transaction to the appropriate user and holding.",
+          "status": "done",
+          "testStrategy": "Verify that all CRUD operations correctly update transaction history and that historical data is accessible via the API."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Set Up Alerts and Notification System",
+      "description": "Implement backend alert management endpoints and background scheduler to trigger push and email notifications.",
+      "details": "Define endpoints: POST/GET/PUT/DELETE /alerts. In scheduler (cron job every minute), evaluate price- or deadline-based conditions, send push via Firebase Admin SDK, and email via @sendgrid/mail. Mark alerts as sent to prevent duplicates.",
+      "testStrategy": "Mock Firebase and SendGrid in unit tests to verify payload and send logic. Simulate scheduler execution in integration tests and assert alert state changes and notification calls.",
+      "priority": "high",
+      "dependencies": [
+        2,
+        3,
+        4
+      ],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 8,
+      "title": "Build Dashboard Frontend Interface",
+      "description": "Develop Next.js dashboard page showing summary stats, charts, and recent activity with filters and responsive design.",
+      "details": "Create /dashboard page. Fetch data from /portfolio, /airdrops, /alerts using client-side fetch or SWR. Render summary cards (total value, claims, recent alerts) and Recharts charts for portfolio history. Implement filter and search UI. Style with Tailwind and ensure mobile responsiveness.",
+      "testStrategy": "Write unit tests with React Testing Library for Dashboard components. Use Cypress to perform E2E tests covering data loading, filtering, and responsive layout.",
+      "priority": "medium",
+      "dependencies": [
+        1,
+        5,
+        6,
+        7
+      ],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 9,
+      "title": "Implement Airdrops Frontend Feature",
+      "description": "Create Next.js airdrops page to list airdrops with eligibility info, deadlines, and claim/unclaim actions.",
+      "details": "Develop /airdrops page. Fetch GET /airdrops and render sortable, filterable list with custom badges for status. On claim/unclaim button click, call POST /airdrops/:id/claim and update UI state. Ensure clear eligibility indicators and responsive layout.",
+      "testStrategy": "Unit tests for list and button behaviors. Cypress E2E tests simulate filtering, marking claims, and visual state updates.",
+      "priority": "medium",
+      "dependencies": [
+        1,
+        5
+      ],
+      "status": "done",
+      "subtasks": []
+    },
+    {
+      "id": 10,
+      "title": "Develop Portfolio and Alerts Frontend Interfaces",
+      "description": "Implement Next.js pages for portfolio management and alert settings with visualizations and CRUD interactions.",
+      "details": "Portfolio page: fetch GET /portfolio, display holdings table, Recharts performance chart, and transaction history modal. Alerts page: render existing alerts, form to create/edit with inputs for token, threshold, and notification type, and delete/edit actions. Use React Context for global UI state.",
+      "testStrategy": "Unit tests for form validation, data rendering, and chart components. Cypress E2E tests for adding/removing holdings and alerts, and verifying notification preferences UI.",
+      "priority": "medium",
+      "dependencies": [
+        1,
+        6,
+        7
+      ],
+      "status": "done",
+      "subtasks": []
+    }
+  ]
+}

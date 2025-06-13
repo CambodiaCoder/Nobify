@@ -1,0 +1,11 @@
+# Task ID: 10
+# Title: Develop Portfolio and Alerts Frontend Interfaces
+# Status: done
+# Dependencies: 1, 6, 7
+# Priority: medium
+# Description: Implement Next.js pages for portfolio management and alert settings with visualizations and CRUD interactions.
+# Details:
+Portfolio page: fetch GET /portfolio, display holdings table, Recharts performance chart, and transaction history modal. Alerts page: render existing alerts, form to create/edit with inputs for token, threshold, and notification type, and delete/edit actions. Use React Context for global UI state.
+
+# Test Strategy:
+Unit tests for form validation, data rendering, and chart components. Cypress E2E tests for adding/removing holdings and alerts, and verifying notification preferences UI.

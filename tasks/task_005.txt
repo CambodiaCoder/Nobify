@@ -1,0 +1,11 @@
+# Task ID: 5
+# Title: Develop Airdrop Tracking API Endpoints
+# Status: done
+# Dependencies: 2, 3, 4
+# Priority: high
+# Description: Create Fastify endpoints to list, filter, and manage user-specific airdrops including claim status.
+# Details:
+Implement GET /airdrops with query params (status, upcoming, completed), GET /airdrops/:id, POST /airdrops/:id/claim to toggle claim. Use getAirdrops() to refresh data and Prisma to read/write UserAirdrop. Schedule background job for deadline notifications.
+
+# Test Strategy:
+Unit test each endpoint handler with mocked services and Prisma client. Integration tests verify list filtering, claim toggling, and database updates.

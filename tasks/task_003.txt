@@ -1,0 +1,61 @@
+# Task ID: 3
+# Title: Implement Authentication and Authorization
+# Status: done
+# Dependencies: 1, 2
+# Priority: high
+# Description: Implement signup/login with JWT in Fastify and protect API routes; manage auth state in frontend.
+# Details:
+In backend, register fastify-jwt plugin, create /auth/signup and /auth/login endpoints, hash passwords with bcrypt, sign JWT tokens, and add auth preHandler to protected routes. In frontend, create React Context for auth, store token in HTTP-only cookie, and wrap protected pages with auth guard.
+
+# Test Strategy:
+Unit test auth endpoints for success and failure cases. Integration test protected endpoints reject unauthorized requests. Frontend tests simulate login flow and auth guard behavior.
+
+# Subtasks:
+## 1. Backend JWT Configuration [done]
+### Dependencies: None
+### Description: Set up JWT authentication infrastructure on the backend
+### Details:
+Configure JWT secret keys, token generation, validation middleware, and token refresh mechanisms. Implement token expiration settings and secure storage of JWT secrets in environment variables.
+<info added on 2025-05-21T17:03:14.804Z>
+Initial exploration reveals that JWT secret keys are pending definition in the .env file. The fastify-jwt library (v4.1.3) is installed but not yet registered in backend/src/index.ts. Immediate next steps involve defining JWT_SECRET and JWT_REFRESH_SECRET in the .env file, followed by registering the fastify-jwt plugin in backend/src/index.ts using these environment variables.
+</info added on 2025-05-21T17:03:14.804Z>
+<info added on 2025-05-21T17:04:24.712Z>
+Completed initial Backend JWT Configuration:
+- Added JWT_SECRET and JWT_REFRESH_SECRET to the .env file (with placeholder values).
+- Imported and registered the fastify-jwt plugin in backend/src/index.ts.
+- Configured fastify-jwt to use the JWT_SECRET from environment variables.
+- Added a check to ensure JWT_SECRET is defined, exiting if not.
+
+Token generation, validation middleware, and refresh mechanisms are out of scope for this initial setup and will be addressed in subsequent subtasks (e.g., 3.2 for endpoints, 3.4 for auth middleware).
+</info added on 2025-05-21T17:04:24.712Z>
+
+## 2. User Authentication Endpoints [done]
+### Dependencies: 3.1
+### Description: Create backend API endpoints for user authentication
+### Details:
+Implement registration, login, logout, and password reset endpoints. Set up secure session cookies for the Backend for Frontend (BFF) pattern. Configure CORS and security headers for all authentication routes.
+
+## 3. Password Security Implementation [done]
+### Dependencies: 3.2
+### Description: Implement secure password handling on the backend
+### Details:
+Set up password hashing using bcrypt or Argon2, implement password validation rules, salt generation, and secure password reset flows. Create mechanisms to prevent brute force attacks and implement rate limiting.
+
+## 4. Authorization Middleware [done]
+### Dependencies: 3.1, 3.2
+### Description: Create role-based authorization middleware for backend routes
+### Details:
+Implement role-based access control (RBAC) middleware that validates user permissions for protected routes. Create functions to authorize different user roles (e.g., admin, regular user) and handle unauthorized access attempts.
+
+## 5. Frontend Authentication Integration [done]
+### Dependencies: 3.2
+### Description: Implement authentication state management in the frontend application
+### Details:
+Set up authentication context/store to manage user state. Implement login/logout UI components, session persistence, and automatic token refresh. Create interceptors for authenticated API requests and handle authentication errors.
+
+## 6. Frontend Route Protection [done]
+### Dependencies: 3.5
+### Description: Implement protected routes and authorization guards in the frontend
+### Details:
+Create route guards to prevent unauthorized access to protected pages. Implement conditional rendering based on user roles and permissions. Add redirect logic for unauthenticated users and handle session timeouts gracefully.
+

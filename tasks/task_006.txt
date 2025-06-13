@@ -1,0 +1,43 @@
+# Task ID: 6
+# Title: Implement Portfolio Management API
+# Status: done
+# Dependencies: 2, 3, 4
+# Priority: high
+# Description: Build Fastify endpoints for CRUD of user portfolio holdings and calculate performance metrics.
+# Details:
+Add endpoints: GET /portfolio (aggregate holdings with current values), POST /portfolio/holdings, PUT /portfolio/holdings/:id, DELETE /portfolio/holdings/:id. Use getPrices() to calculate current value and percentage change. Persist transactions for history.
+
+# Test Strategy:
+Unit tests for logic and calculations with mocked price service. Integration tests to verify holdings CRUD, value aggregation, and transaction recording.
+
+# Subtasks:
+## 1. Design Portfolio Holdings Data Model [done]
+### Dependencies: None
+### Description: Define the schema for user portfolio holdings and transaction history, ensuring compatibility with CRUD operations and performance calculations.
+### Details:
+Specify fields such as asset type, quantity, acquisition price, timestamps, and user association. Include transaction history structure for tracking changes over time.
+
+## 2. Implement CRUD Endpoints for Portfolio Holdings [done]
+### Dependencies: 6.1
+### Description: Develop Fastify endpoints for creating, reading, updating, and deleting user portfolio holdings.
+### Details:
+Create POST /portfolio/holdings, GET /portfolio, PUT /portfolio/holdings/:id, and DELETE /portfolio/holdings/:id endpoints. Use Fastify's schema validation for request and response payloads.
+
+## 3. Integrate Price Retrieval for Holdings Valuation [done]
+### Dependencies: 6.2
+### Description: Integrate the getPrices() function to fetch current asset prices and calculate the current value of each holding.
+### Details:
+Ensure each holding's value is updated in real-time using external price data. Handle errors and edge cases in price retrieval.
+
+## 4. Calculate Portfolio Performance Metrics [done]
+### Dependencies: 6.3
+### Description: Implement logic to compute performance metrics such as total portfolio value and percentage change based on transaction history and current prices.
+### Details:
+Aggregate holdings, calculate total value, and determine percentage change since acquisition using persisted transaction data.
+
+## 5. Persist and Retrieve Transaction History [done]
+### Dependencies: 6.1
+### Description: Ensure all portfolio transactions are recorded and can be retrieved for historical analysis and performance calculations.
+### Details:
+Implement storage and retrieval logic for transaction history, linking each transaction to the appropriate user and holding.
+

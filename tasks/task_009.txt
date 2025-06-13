@@ -1,0 +1,11 @@
+# Task ID: 9
+# Title: Implement Airdrops Frontend Feature
+# Status: done
+# Dependencies: 1, 5
+# Priority: medium
+# Description: Create Next.js airdrops page to list airdrops with eligibility info, deadlines, and claim/unclaim actions.
+# Details:
+Develop /airdrops page. Fetch GET /airdrops and render sortable, filterable list with custom badges for status. On claim/unclaim button click, call POST /airdrops/:id/claim and update UI state. Ensure clear eligibility indicators and responsive layout.
+
+# Test Strategy:
+Unit tests for list and button behaviors. Cypress E2E tests simulate filtering, marking claims, and visual state updates.

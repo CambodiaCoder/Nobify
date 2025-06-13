@@ -1,0 +1,11 @@
+# Task ID: 2
+# Title: Design and Implement Database Schema
+# Status: done
+# Dependencies: 1
+# Priority: high
+# Description: Define and migrate PostgreSQL schema using Prisma for Users, Airdrops, UserAirdrops, PortfolioHoldings, Transactions, and Alerts.
+# Details:
+Create schema.prisma with models: User (id,email,passwordHash), Airdrop (id,title,criteria,deadline), UserAirdrop (userId,airdropId,status), PortfolioHolding (id,userId,tokenSymbol,amount), Transaction (id,holdingId,type,amount,date), Alert (id,userId,type,condition,threshold,createdAt). Run prisma migrate to apply.
+
+# Test Strategy:
+Write integration tests with a test database. Use Prisma client to perform CRUD operations for each model and assert schema correctness.

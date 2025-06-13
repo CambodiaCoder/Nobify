@@ -1,0 +1,11 @@
+# Task ID: 4
+# Title: Integrate Third-Party Crypto APIs
+# Status: done
+# Dependencies: 1, 2
+# Priority: medium
+# Description: Build backend services to fetch airdrop data from CoinGecko/CoinMarketCap and real-time price data from CoinGecko.
+# Details:
+Implement service modules using axios to call CoinGecko/CoinMarketCap APIs. Abstract API keys via environment variables. Add caching layer with node-cache (TTL 30s). Export functions getAirdrops() and getPrices(tokenSymbols).
+
+# Test Strategy:
+Mock axios responses in unit tests and assert data mapping. Test cache layer by calling functions twice and verifying only first call hits external API.

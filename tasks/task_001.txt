@@ -1,0 +1,49 @@
+# Task ID: 1
+# Title: Initialize Project Repository and Tooling
+# Status: completed
+# Dependencies: None
+# Priority: high
+# Description: Set up monorepo including Next.js frontend and Fastify backend with TypeScript, Tailwind CSS, Prisma ORM, Recharts, and essential libraries.
+# Details:
+Create workspace with npm/yarn. Initialize Next.js app in /frontend and Fastify in /backend. Install dependencies: next, react, react-dom, tailwindcss, fastify, axios, prisma, @prisma/client, fastify-jwt, bcrypt, firebase-admin, @sendgrid/mail, recharts. Configure TypeScript, Tailwind, and folder structure.
+
+# Test Strategy:
+Run Next.js dev and Fastify server to verify startup. Implement CI scripts to lint and build both apps. Validate folder structure and dependency installation.
+
+# Subtasks:
+## 1. Initialize Monorepo Workspace and Basic Directory Structure [done]
+### Dependencies: None
+### Description: Set up the root of the monorepo using npm or yarn workspaces and create the primary directories for frontend and backend applications.
+### Details:
+1. Create a root project directory. 2. Initialize it as a package: `npm init -y` or `yarn init -y`. 3. Configure workspaces in the root `package.json`. For npm: add `"workspaces": ["frontend", "backend"]` (or `"apps/*"` if using an `apps` subdirectory). For yarn: add `"workspaces": {"packages": ["frontend", "backend"]}` (or `"apps/*"`). 4. Create directories: `mkdir frontend backend` (or `mkdir apps && mkdir apps/frontend apps/backend` if using `apps/*`).
+
+## 2. Initialize Next.js Frontend with TypeScript and Tailwind CSS [done]
+### Dependencies: 1.1
+### Description: Set up the Next.js application within the `frontend` directory, including TypeScript and initial Tailwind CSS configuration.
+### Details:
+1. Navigate to the `frontend` directory. 2. Initialize Next.js: `npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias "@/*"`. (Adjust flags as per latest `create-next-app` recommendations). 3. Ensure a `package.json` is created in `frontend` and it's recognized by the monorepo. Install core dependencies `next`, `react`, `react-dom` if not automatically handled by `create-next-app` in a monorepo context. 4. Verify basic Next.js app runs using its dev script (e.g., `npm run dev` or `yarn dev` from the `frontend` directory or workspace command from root).
+
+## 3. Initialize Fastify Backend with TypeScript [done]
+### Dependencies: 1.1
+### Description: Set up the Fastify application within the `backend` directory, configured with TypeScript.
+### Details:
+1. Navigate to the `backend` directory. 2. Initialize a `package.json`: `npm init -y` or `yarn init -y`. 3. Install Fastify and TypeScript dependencies: `npm install fastify typescript @types/node ts-node-dev` or `yarn add fastify typescript @types/node ts-node-dev`. 4. Create a `tsconfig.json` (e.g., `npx tsc --init`) and configure it appropriately (e.g., `"rootDir": "src"`, `"outDir": "dist"`, `"esModuleInterop": true`, `"moduleResolution": "node"`). 5. Create `src/index.ts` with a basic Fastify server instance and a test route (e.g., `server.get('/', async () => ({ hello: 'world' }))`). 6. Add scripts to `backend/package.json`: `"dev": "ts-node-dev src/index.ts"`, `"build": "tsc"`, `"start": "node dist/index.js"`.
+
+## 4. Set Up and Configure Prisma ORM [done]
+### Dependencies: 1.3
+### Description: Initialize Prisma ORM in the backend, configure the database connection, and create an initial schema.
+### Details:
+1. Navigate to the `backend` directory. 2. Install Prisma CLI as a dev dependency and Prisma Client: `npm install prisma --save-dev @prisma/client` or `yarn add prisma --dev @prisma/client`. 3. Initialize Prisma: `npx prisma init --datasource-provider postgresql` (replace `postgresql` with your chosen database provider like `mysql` or `sqlite`). This creates a `prisma` folder with `schema.prisma` and a `.env` file. 4. Configure the `DATABASE_URL` in the `.env` file with your database connection string. 5. Define at least one model in `prisma/schema.prisma` (e.g., a simple User model). 6. Create the first migration and apply it to the database: `npx prisma migrate dev --name init`. 7. Generate Prisma Client: `npx prisma generate`.
+
+## 5. Install Additional Libraries and Finalize Tailwind CSS [done]
+### Dependencies: 1.2, 1.3, 1.4
+### Description: Install all remaining project dependencies for both frontend and backend, and complete Tailwind CSS setup for the frontend.
+### Details:
+1. **Frontend (`frontend` directory):** 
+   - Install `axios`, `recharts`: `npm install axios recharts` or `yarn add axios recharts`. 
+   - Verify/Finalize Tailwind CSS: Ensure `tailwind.config.js` `content` array correctly paths to your source files (e.g., `./src/**/*.{js,ts,jsx,tsx,mdx}`). 
+   - Ensure Tailwind CSS directives (`@tailwind base; @tailwind components; @tailwind utilities;`) are present in the main global CSS file (e.g., `src/app/globals.css` for Next.js App Router). 
+2. **Backend (`backend` directory):** 
+   - Install `axios` (if needed for server-to-server), `fastify-jwt`, `bcrypt`, `firebase-admin`, `@sendgrid/mail`: `npm install axios fastify-jwt bcrypt firebase-admin @sendgrid/mail` or `yarn add axios fastify-jwt bcrypt firebase-admin @sendgrid/mail`. 
+   - Install necessary type definitions for these libraries (e.g., `npm install -D @types/bcrypt` or `yarn add -D @types/bcrypt`).
+

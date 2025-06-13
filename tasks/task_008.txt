@@ -1,0 +1,11 @@
+# Task ID: 8
+# Title: Build Dashboard Frontend Interface
+# Status: done
+# Dependencies: 1, 5, 6, 7
+# Priority: medium
+# Description: Develop Next.js dashboard page showing summary stats, charts, and recent activity with filters and responsive design.
+# Details:
+Create /dashboard page. Fetch data from /portfolio, /airdrops, /alerts using client-side fetch or SWR. Render summary cards (total value, claims, recent alerts) and Recharts charts for portfolio history. Implement filter and search UI. Style with Tailwind and ensure mobile responsiveness.
+
+# Test Strategy:
+Write unit tests with React Testing Library for Dashboard components. Use Cypress to perform E2E tests covering data loading, filtering, and responsive layout.

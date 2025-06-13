@@ -1,0 +1,11 @@
+# Task ID: 7
+# Title: Set Up Alerts and Notification System
+# Status: done
+# Dependencies: 2, 3, 4
+# Priority: high
+# Description: Implement backend alert management endpoints and background scheduler to trigger push and email notifications.
+# Details:
+Define endpoints: POST/GET/PUT/DELETE /alerts. In scheduler (cron job every minute), evaluate price- or deadline-based conditions, send push via Firebase Admin SDK, and email via @sendgrid/mail. Mark alerts as sent to prevent duplicates.
+
+# Test Strategy:
+Mock Firebase and SendGrid in unit tests to verify payload and send logic. Simulate scheduler execution in integration tests and assert alert state changes and notification calls.
