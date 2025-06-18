@@ -320,6 +320,21 @@ export const alertsApi = {
   }
 };
 
+// User API types
+export interface PublicUserProfile {
+  id: string;
+  name: string | null;
+  profileImage: string | null;
+}
+
+export const userApi = {
+  // Get public user profile by ID
+  getPublicUserProfile: async (userId: string): Promise<{ user: PublicUserProfile }> => {
+    const response = await api.get<{ user: PublicUserProfile }>(`/users/${userId}/profile`);
+    return response.data;
+  }
+};
+
 export const getCryptoLogoUrl = (symbol: string) => {
   // This is a placeholder. In a real application, you would use a reliable
   // crypto logo API that supports CORS, e.g., CoinGecko, CoinMarketCap, etc.

@@ -112,7 +112,8 @@ const TokenList: React.FC = () => {
                         {holding.tokenSymbol}
                       </div>
                     </div>
-                  </td>
+                  </div>
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-700 dark:text-gray-300">
                   {holding.currentPrice ?
                     `$${holding.currentPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` :
