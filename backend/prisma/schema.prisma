@@ -10,8 +10,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 // User model for authentication and user data
@@ -23,7 +23,7 @@ enum UserRole {
 }
 
 model User {
-  id                  String           @id @default(uuid())
+  id                  String           @id @default(cuid())
   email               String           @unique
   passwordHash        String
   name                String?

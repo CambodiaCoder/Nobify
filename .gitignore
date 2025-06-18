@@ -1,32 +1,33 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-dev-debug.log
-
-# Dependency directories
+# Dependencies
 node_modules/
 
-# Environment variables (keep these private)
+# Environment variables
 .env
+.env.local
+.env.*.local
 
-# Editor directories and files
-.idea
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# Build outputs
+/backend/dist/
+/frontend/dist/
+/frontend/build/
 
-# OS specific
+# Prisma generated files
+/backend/src/generated/
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
 .DS_Store
+Thumbs.db
 
-# Database files
-*.db
-*.sqlite
-*.sqlite3
+# TypeScript
+*.tsbuildinfo
 
-# Generated files
-**/dist/
+# Cache
+.cache/
